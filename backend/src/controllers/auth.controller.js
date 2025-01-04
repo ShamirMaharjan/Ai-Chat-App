@@ -72,7 +72,7 @@ export const login = async (req, res) => {
         generateToken(user._id, res);
 
         // Store token in Redis with a TTL (e.g., 1 day)
-        await redisClient.setEx(user._id.toString(), 86400, token);
+        //await redisClient.setEx(user._id.toString(), 86400, token);
 
         return res.status(200).json({
             _id: user._id,
@@ -94,7 +94,7 @@ export const logout = async (req, res) => {
     try {
 
         // Remove token from Redis
-        await redisClient.del(userId.toString());
+        //await redisClient.del(userId.toString());
 
         res.cookie("jwt", "");
         return res.status(200).json({ message: "Logged out successfully" });

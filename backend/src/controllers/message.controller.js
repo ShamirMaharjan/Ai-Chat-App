@@ -18,6 +18,7 @@ export const getUserForSidebar = async (req, res) => {
 
 }
 
+
 export const sendMessage = async (req, res) => {
     try {
         const { text, image } = req.body;

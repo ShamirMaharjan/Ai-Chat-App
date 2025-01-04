@@ -7,7 +7,7 @@ import messageRoute from './routes/message.route.js';
 import aiRoute from './routes/ai.route.js';
 import morgan from 'morgan';
 import redisClient from './lib/redis.js';
-
+import groupRoute from './routes/group.route.js';
 dotenv.config();
 
 const app = express();
@@ -18,6 +18,7 @@ app.use(cookieParser());
 //console.log(process.env.GOOGLE_AI_KEY);
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRoute);
+app.use("/api/group", groupRoute);
 app.use("/api/ai", aiRoute);
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);
