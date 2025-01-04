@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import cloudinary from "../lib/cloudinary.js";
+import redisClient from "../lib/redis.js";
 export const signup = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -70,6 +71,9 @@ export const login = async (req, res) => {
 
         generateToken(user._id, res);
 
+        // Store token in Redis with a TTL (e.g., 1 day)
+        await redisClient.setEx(user._id.toString(), 86400, token);
+
         return res.status(200).json({
             _id: user._id,
             name: user.name,
@@ -86,7 +90,12 @@ export const login = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
+    const userId = req.user._id;
     try {
+
+        // Remove token from Redis
+        await redisClient.del(userId.toString());
+
         res.cookie("jwt", "");
         return res.status(200).json({ message: "Logged out successfully" });
 
