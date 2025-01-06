@@ -90,7 +90,7 @@ export const login = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-    const userId = req.user._id;
+    //const userId = req.user._id;
     try {
 
         // Remove token from Redis
